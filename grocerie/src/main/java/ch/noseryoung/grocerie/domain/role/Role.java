@@ -28,7 +28,7 @@ public class Role {
                     @JoinColumn(name = "id_role", referencedColumnName = "role_id"),
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "id_authority", referencedColumnName = "auhtority_id")
+                    @JoinColumn(name = "id_authority", referencedColumnName = "authority_id")
             }
     )
     private Set<Authority> roleAuth;
