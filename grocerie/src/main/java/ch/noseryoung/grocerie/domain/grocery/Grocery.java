@@ -1,18 +1,16 @@
 package ch.noseryoung.grocerie.domain.grocery;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "tables")
+@Table(name = "groceries")
 public class Grocery {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "grocery_id")
     private int groceryId;
 
@@ -25,18 +23,14 @@ public class Grocery {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "sale")
-    private int sale;
-
     @Column(name = "price")
     private int price;
 
-    public Grocery(int groceryId, String name, String region, String description, int sale, int price) {
+    public Grocery(int groceryId, String name, String region, String description, int price) {
         this.groceryId = groceryId;
         this.name = name;
         this.region = region;
         this.description = description;
-        this.sale = sale;
         this.price = price;
     }
 
