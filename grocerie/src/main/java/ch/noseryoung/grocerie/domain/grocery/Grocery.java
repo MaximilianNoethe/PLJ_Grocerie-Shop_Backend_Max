@@ -14,7 +14,7 @@ public class Grocery {
     @Column(name = "grocery_id")
     private int groceryId;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "region")
