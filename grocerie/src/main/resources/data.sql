@@ -21,5 +21,5 @@ VALUES (1, 1),
        (4, 1),
        (1, 2);
 
-INSERT INTO users (first_name, last_name, email, password)
-VALUES ('ADMIN', 'ADMIN', 'admin@mail.com', 'password');
+INSERT INTO users (first_name, last_name, email, password, id_role)
+VALUES ('ADMIN', 'ADMIN', 'admin@mail.com', 'password', 1);
