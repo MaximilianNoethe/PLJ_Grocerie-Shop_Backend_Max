@@ -22,4 +22,5 @@ VALUES (1, 1),
        (1, 2);
 
 INSERT INTO users (first_name, last_name, email, password, id_role)
-VALUES ('ADMIN', 'ADMIN', 'admin@mail.com', 'password', 1);
+VALUES ('ADMIN', 'ADMIN', 'admin@mail.com', '1234', 1),
+       ('USER', 'USER', 'user@users.com', '1234', 2);
