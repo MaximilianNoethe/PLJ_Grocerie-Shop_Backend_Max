@@ -23,16 +23,17 @@ public class GroceryService {
     }
 
     public Grocery addGrocery(Grocery newGrocery) throws DataIntegrityViolationException {
-
         if (groceryRepository.existsByName(newGrocery.getName())) {
             throw new DataIntegrityViolationException("Grocery with the name '" + newGrocery.getName() + "' already exists!");
         }
         return groceryRepository.save(newGrocery);
     }
 
-    public Grocery updateById(int id, Grocery grocery) throws InstanceNotFoundException {
+    public Grocery updateById(int id, Grocery grocery) throws InstanceNotFoundException, DataIntegrityViolationException {
         if (!groceryRepository.existsById(id)) {
-            throw new InstanceNotFoundException("Grocery with id " + grocery.getGroceryId() + " could not be found!");
+            throw new InstanceNotFoundException("Grocery with id " + id + " could not be found!");
+        } else if (groceryRepository.existsByName(grocery.getName())) {
+            throw new DataIntegrityViolationException("Grocery with the name '" + grocery.getName() + "' already exists!");
         }
         grocery.setGroceryId(id);
         return groceryRepository.save(grocery);
