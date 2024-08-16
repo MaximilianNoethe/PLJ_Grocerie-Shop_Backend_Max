@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
@@ -36,11 +37,14 @@ public class WebSecurityConfig {
         return new ProviderManager(provider);
     }
 
+
     @Bean
+    @CrossOrigin (origins = "http://localhost:5173/")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        requests -> requests.requestMatchers(HttpMethod.GET, "/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*").permitAll().anyRequest().authenticated()
-
+                        requests -> requests.requestMatchers(HttpMethod.GET,"/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(AbstractHttpConfigurer::disable)
