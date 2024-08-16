@@ -21,6 +21,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(name));
     }
 
+    public User loadUser(String name) throws UsernameNotFoundException {
+        return repository.findByFirstName(name)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with the name: " + name));
+    }
+
     public record UserDetailsImpl(User user) implements UserDetails {
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,6 +62,10 @@ public class UserService implements UserDetailsService {
         @Override
         public boolean isEnabled() {
             return true;
+        }
+
+        public User getUser() {
+            return user;
         }
     }
 }
