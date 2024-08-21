@@ -23,6 +23,9 @@ public class Grocery {
     @Column(name = "description")
     private String description;
 
+    @Column (name = "url")
+    private String url;
+
     @Column(name = "price")
     private int price;
 
