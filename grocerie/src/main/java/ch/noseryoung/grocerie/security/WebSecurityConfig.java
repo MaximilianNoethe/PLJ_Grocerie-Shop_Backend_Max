@@ -17,10 +17,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@CrossOrigin(origins = "*")
 public class WebSecurityConfig {
 
     @Autowired
@@ -39,17 +43,21 @@ public class WebSecurityConfig {
 
 
     @Bean
-    @CrossOrigin (origins = "http://localhost:5173/")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        requests -> requests.requestMatchers(HttpMethod.GET,"/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*", "/grocery").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                                .anyRequest().authenticated()
+                        requests -> requests.requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*", "/grocery").permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
+                .cors(httpSecurityCorsConfigurer -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(Arrays.asList("*"));
+                    configuration.setAllowedMethods(Arrays.asList("*"));
+                    configuration.setAllowedHeaders(Arrays.asList("*"));
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                    source.registerCorsConfiguration("/**", configuration);
+                    httpSecurityCorsConfigurer.configurationSource(source);
+                })
                 .build();
     }
 }
