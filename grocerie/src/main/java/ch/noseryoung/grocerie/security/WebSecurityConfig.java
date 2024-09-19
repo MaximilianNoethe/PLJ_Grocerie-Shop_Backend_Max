@@ -43,8 +43,9 @@ public class WebSecurityConfig {
 
 
     @Bean
+    @CrossOrigin (origins = "http://localhost:5173")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(
+        return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         requests -> requests.requestMatchers(HttpMethod.POST, "/login").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*", "/grocery").permitAll()
                 )
